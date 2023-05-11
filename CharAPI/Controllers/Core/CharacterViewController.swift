@@ -9,21 +9,40 @@ import UIKit
 
 class CharacterViewController: UIViewController {
 
-    override func viewDidLoad() {
+	private let viewModel = CharacterViewViewModel()
+	
+	@IBOutlet var loadingIndicator: UIActivityIndicatorView!
+	@IBOutlet var VCCollectionView: UICollectionView!
+	
+	
+	override func viewDidLoad() {
         super.viewDidLoad()
 		view.backgroundColor = .systemBackground
 		title = "Characters"
+		navigationController?.navigationBar.prefersLargeTitles = true
+		
+		setUpCollectionView()
+		viewModel.fetchCharacterList()
+		
     }
+	
+	private func setUpCollectionView(){
+		VCCollectionView.dataSource = viewModel
+		VCCollectionView.delegate = viewModel
+		
+		DispatchQueue.main.asyncAfter(deadline: .now()+2, execute: { [weak self] in
+			
+			self?.loadingIndicator.stopAnimating()
+			self?.VCCollectionView.isHidden = false
+			
+			UIView.animate(withDuration: 0.5) {
+				self?.VCCollectionView.alpha = 1
+			}
+		})
+	}
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+  
 
 }
+
