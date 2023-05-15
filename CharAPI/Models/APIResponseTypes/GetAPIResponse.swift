@@ -11,7 +11,7 @@ import Foundation
 
 struct GetAllCharactersResponse: Codable {
 	let data: [APIDataStructure<Character>]
-	let meta: Meta
+	let links: LinksPagination
 }
 
 struct APIDataStructure<DataType: Codable> : Codable {
@@ -20,13 +20,11 @@ struct APIDataStructure<DataType: Codable> : Codable {
 	let attributes: DataType
 }
 
-struct Meta: Codable {
-	let pagination: Pagination
-}
 
-struct Pagination: Codable {
-	let current: Int
-	let next: Int
-	let last: Int
-	let records: Int
+struct LinksPagination: Codable {
+	let current: String
+	let first: String?
+	let prev: String?
+	let next: String?
+	let last: String?
 }

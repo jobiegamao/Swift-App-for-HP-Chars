@@ -30,8 +30,7 @@ final class Service {
 	///   - type: type of obj to get. Cuz can be String, Character Model, House Model, Wand Model, or etc. This uses Generics
 	///   - completion: callback with data or error
 	func fetchData<T: Codable>(_ request: Request, expecting type: T.Type, completion: @escaping (Result<T, Error>) -> Void){
-		
-		print(T.Type.self)
+
 		guard let urlReq = self.urlRequest(from: request)
 		else {
 			completion(.failure(ServiceErrors.failedToCreateRequest))

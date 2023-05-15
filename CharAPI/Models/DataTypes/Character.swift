@@ -9,7 +9,7 @@ import Foundation
 
 struct Character: Codable {
 	let slug : String
-	let name : String?
+	let name : String
 	let born : String?
 	let died : String?
 	let gender : String?
