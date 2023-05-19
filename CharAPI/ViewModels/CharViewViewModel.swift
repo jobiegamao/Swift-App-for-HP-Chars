@@ -10,7 +10,22 @@ import UIKit
 
 protocol CharViewViewModelDelegate: AnyObject {
 	func didLoadInitialCharacters()
+	func didLoadMoreCharacters(for newElementsIndexPaths: [IndexPath])
 	func didTapCollectionViewCell(selected character: Character)
+	func didPullFooterForMoreData()
+	func didFinishFooterLoad()
+}
+
+// to make the protocols optional
+extension CharViewViewModelDelegate {
+	// Collection View
+	func didLoadInitialCharacters() {}
+	func didLoadMoreCharacters(for newElementsIndexPaths: [IndexPath])  {}
+	func didTapCollectionViewCell(selected character: Character) {}
+	
+	// footer
+	func didPullFooterForMoreData() {}
+	func didFinishFooterLoad() {}
 }
 
 class CharViewViewModel: NSObject {
@@ -19,8 +34,18 @@ class CharViewViewModel: NSObject {
 	
 	private var charactersList: [Character] = [] {
 		didSet {
-			for person in charactersList {
-				let viewModel = CharCollectionCellViewViewModel(name: person.name, alias_names: person.alias_names, species: person.species, blood_status: person.blood_status, imageURLString: person.image)
+			// create a view model for each character
+			// when a viewmodel is already created for that character name, it will not duplicate it
+			for person in charactersList where !cellViewModel.contains(where: {$0.name == person.name} ){
+				print(cellViewModel.count, person.name, "charlist")
+				let viewModel = CharCollectionCellViewViewModel(
+					name: person.name,
+					alias_names: person.alias_names,
+					species: person.species,
+					blood_status: person.blood_status,
+					imageURLString: person.image
+				)
+				
 				cellViewModel.append(viewModel)
 			}
 			
@@ -36,6 +61,7 @@ class CharViewViewModel: NSObject {
 	public var shouldLoadMorePage: Bool {
 		APIPagination?.next != nil
 	}
+	private var isCurrentlyLoading = false
 	
 	/// Initial fetch
 	func fetchCharacterList() {
@@ -57,7 +83,48 @@ class CharViewViewModel: NSObject {
 	}
 	
 	/// Paginate fetch if theres more pages
-	func fetchMoreCharacters(){
+	func fetchMoreCharacters(urlString: String){
+		let modifiedURLString = urlString.replacingOccurrences(of: "\u{0026}", with: "&")
+				
+		let request = Request(urlString: modifiedURLString)
+		guard let request = request else { return }
+		isCurrentlyLoading = true
+		
+		Service.shared.fetchData(request, expecting: GetAllCharactersResponse.self) {
+			 [weak self] result in
+			
+			switch result {
+				case .success(let ApiResponseModel):
+					let adtnlCharacters = ApiResponseModel.data.compactMap { $0.attributes }
+														  .filter { character in
+															  guard let strongSelf = self else { return false}
+															  return !(strongSelf.charactersList.contains { $0.name == character.name } )
+														  }
+					self?.charactersList.append(contentsOf: adtnlCharacters)
+					self?.APIPagination = ApiResponseModel.links
+
+					// update UI
+					DispatchQueue.main.async {
+						// stop footer loading animation
+						self?.delegate?.didFinishFooterLoad()
+						// update Collection View in Controller
+						let startIndex = (self?.charactersList.count ?? 0) - adtnlCharacters.count - 1
+						let endIndex = (self?.charactersList.count ?? 0) - 1
+						
+						let addedIndexes: [IndexPath] = Array(startIndex..<endIndex).compactMap { IndexPath(row: $0, section: 0) }
+						print("index count", addedIndexes.count, addedIndexes)
+						self?.delegate?.didLoadMoreCharacters(for: addedIndexes)
+						// stop the loading boolean
+						self?.isCurrentlyLoading = false
+					}
+					
+					
+				case .failure(let failure):
+					print(failure)
+			}
+			
+		}
+		
 		
 	}
 	
@@ -90,4 +157,61 @@ extension CharViewViewModel: UICollectionViewDataSource, UICollectionViewDelegat
 		delegate?.didTapCollectionViewCell(selected: character)
 	}
 	
+	// MARK: - Collection View Footer
+	func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+		guard kind == UICollectionView.elementKindSectionFooter
+		else {
+			fatalError("Unsupported at viewForSupplementaryElementOfKind")
+		}
+		
+		
+		guard let footer = collectionView.dequeueReusableSupplementaryView(
+			ofKind: kind,
+			withReuseIdentifier: FooterLoadCollectionReusableView.identifier,
+			for: indexPath
+		) as? FooterLoadCollectionReusableView else {
+			fatalError("Unsupported at viewForSupplementaryElementOfKind")
+		}
+		
+		
+		return footer
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+		guard shouldLoadMorePage else {
+			return .zero
+		}
+		return CGSize(width: collectionView.frame.width, height: 100.0)
+	}
+	
+	
+}
+
+
+// MARK: - ScrollView of CollectionView
+extension CharViewViewModel: UIScrollViewDelegate {
+	
+	func scrollViewDidScroll(_ scrollView: UIScrollView) {
+		guard shouldLoadMorePage,
+			  !isCurrentlyLoading,
+			  !cellViewModel.isEmpty,
+			  let nextURLString = APIPagination?.next
+		else { return }
+
+		let offset = scrollView.contentOffset.y
+		let contentHeight = scrollView.contentSize.height
+		let scrollviewHeight = scrollView.frame.size.height
+
+		// if reached the bottom / reached footer
+		// delay by little so to avoid fetching even when still on top
+		if offset >= contentHeight - scrollviewHeight + 10 {
+			print("will fetch more characters")
+			delegate?.didPullFooterForMoreData()
+			fetchMoreCharacters(urlString: nextURLString)
+		}
+	}
+	
+
+	
+
 }

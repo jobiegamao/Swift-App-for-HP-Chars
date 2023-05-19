@@ -16,62 +16,88 @@ import Foundation
 /// Object class that represents a single API Call
 final class Request{
 	
-	/// cache the data onced called as there is no filter parameters
-	/// and data is large and is immutable anyways, so to avoid multiple calls to API
-	private let cache = UserDefaults.standard
 	private let endpoint: API_URL_Endpoints
-	private let filters: [URLQueryItem]
 	private let addtnlParams: [String]
 	
-	init(endpoint: API_URL_Endpoints, filters: [URLQueryItem] = [], addtnlParams: [String] = []) {
+	var url: URL? {
+		var urlString = API_Constants.base_url + endpoint.rawValue
+		
+		if !addtnlParams.isEmpty {
+			urlString += "?"
+		
+			let addtnl = addtnlParams.compactMap{$0}.joined(separator: "&")
+			
+			urlString +=  addtnl
+		}
+		
+		print(urlString)
+		return URL(string: urlString)
+	}
+	
+	init(endpoint: API_URL_Endpoints, addtnlParams: [String] = []) {
 		self.endpoint = endpoint
-		self.filters = filters
 		self.addtnlParams = addtnlParams
 	}
+	
+	// use this if have the complete URL already
+	// chops up the formed URL
+	convenience init?(urlString: String) {
+		var endpoint_found: API_URL_Endpoints
+		var addtnlParams_found: [String]
+		
+		// replaces \u{0026} with  &
+		var trimmed = urlString.replacingOccurrences(of:"\u{0026}", with: "&")
+		
+		// 1. chop base url
+		trimmed = trimmed.replacingOccurrences(of: API_Constants.base_url, with: "")
+		
+		// 2. chop endpoint and addtnlparams
+		
+		// url with just an endpoint no addtnlParams
+		if !trimmed.contains("?"){
+			if let ep = API_URL_Endpoints(rawValue: trimmed) {
+				endpoint_found = ep
+				self.init(endpoint: endpoint_found)
+				return
+			}
+		} else {
+			// there are addtnlParams
+			let components = trimmed.components(separatedBy: "?")
+			if let ep = API_URL_Endpoints(rawValue: components[0]) {
+				endpoint_found = ep
+			} else {
+				fatalError("wrong url, Request convenience init")
+			}
+			//chop endpoint + ?
+			trimmed = trimmed.replacingOccurrences(of: components[0] + "?", with: "")
+			// addtnl params are whats left
+			addtnlParams_found = trimmed.components(separatedBy: "&")
+			
+			self.init(endpoint: endpoint_found, addtnlParams: addtnlParams_found)
+			print("convenience init", self.endpoint, self.addtnlParams)
+			return
+		}
+		
+		return nil
+	}
+
 	
 	private struct API_Constants {
 		static let base_url: String = "https://api.potterdb.com/v1/"
 		// https: //docs.potterdb.com/apis/rest
 	}
 	
-	// MARK: - Public
-	var url: URL? {
-		var urlString = API_Constants.base_url + endpoint.rawValue
-		
-		if !filters.isEmpty || !addtnlParams.isEmpty {
-			urlString += "?"
-			
-			let fil = filters.compactMap({
-				let query = "filter[\($0.name)]"
-				if let value = $0.value {
-					return query + "=\(value)"
-				}
-
-				return query
-			}).joined(separator: "&")
-			
-			let addtnl = addtnlParams.compactMap{$0}.joined(separator: "&")
-			
-			let addOP = !filters.isEmpty ? "&" : ""
-			
-			urlString += fil + addOP + addtnl
-		}
-		
-		
-		
-		print(urlString)
-		return URL(string: urlString)
-	}
+	
+	
 	
 	
 	
 }
 
 extension Request {
-	static let listCharactersRequest = Request(endpoint: .characters, filters: [
-		URLQueryItem(name: "name_not_cont", value: "1"),
-		URLQueryItem(name: "species_not_null", value: nil)
-		], addtnlParams: [
+	static let listCharactersRequest = Request(endpoint: .characters, addtnlParams: [
+			"filter[name_not_cont]=1",
+			"filter[species_not_null]",
 			"sort=blood_status",
 			"page[number=1]&page[size=20]"
 		]
@@ -80,3 +106,46 @@ extension Request {
 	static let listSpellsRequest = Request(endpoint: .spells)
 	
 }
+
+
+/*
+ 
+ convenience init?(urlString: String) {
+	 var endpoint_found: API_URL_Endpoints
+	 var addtnlParams_found: [String]
+	 
+	 // replaces \u{0026} with  &
+	 var trimmed = urlString.replacingOccurrences(of:"\u{0026}", with: "&")
+	 
+	 // 1. chop base url
+	 trimmed = trimmed.replacingOccurrences(of: API_Constants.base_url, with: "")
+
+	 // 2. chop endpoint and addtnlparams
+	 
+	 // url with just an endpoint no addtnlParams
+	 if !trimmed.contains("?"){
+		 if let ep = API_URL_Endpoints(rawValue: trimmed) {
+			 endpoint_found = ep
+			 self.init(endpoint: endpoint_found)
+			 return
+		 }
+	 } else {
+		 // there are addtnlParams
+		 let components = trimmed.components(separatedBy: "?")
+		 if let ep = API_URL_Endpoints(rawValue: components[0]) {
+			 endpoint_found = ep
+		 } else {
+			 fatalError("wrong url, Request convenience init")
+		 }
+		 //chop endpoint + ?
+		 trimmed = trimmed.replacingOccurrences(of: components[0] + "?", with: "")
+		 // addtnl params are whats left
+		 addtnlParams_found = trimmed.components(separatedBy: "&")
+		 
+		 self.init(endpoint: endpoint_found, addtnlParams: addtnlParams_found)
+		 return
+	 }
+	 
+	 return nil
+ }
+ */

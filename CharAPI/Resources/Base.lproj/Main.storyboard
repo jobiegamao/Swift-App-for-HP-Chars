@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="MiC-KN-u7s">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <accessibilityOverrides dynamicTypePreference="3"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Image references" minToolsVersion="12.0"/>
@@ -177,21 +178,30 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
-                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FooterLoadCollectionReusableView" id="PI4-y5-0qp">
+                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FooterLoadCollectionReusableView" id="PI4-y5-0qp" customClass="FooterLoadCollectionReusableView" customModule="CharAPI" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="247" width="393" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Load more" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZzJ-OA-ICb">
-                                            <rect key="frame" x="156" y="9.6666666666666643" width="81" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="pull up for more..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZzJ-OA-ICb">
+                                            <rect key="frame" x="146.33333333333334" y="18" width="100.33333333333334" height="14.333333333333336"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" systemColor="secondaryLabelColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="XAN-FS-7gy">
+                                            <rect key="frame" x="254" y="15" width="20" height="20"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="ZzJ-OA-ICb" firstAttribute="centerY" secondItem="PI4-y5-0qp" secondAttribute="centerY" constant="-5" id="AQQ-ij-3cq"/>
+                                        <constraint firstItem="XAN-FS-7gy" firstAttribute="leading" secondItem="ZzJ-OA-ICb" secondAttribute="trailing" constant="7.3333333333333428" id="42G-fu-fAb"/>
+                                        <constraint firstItem="ZzJ-OA-ICb" firstAttribute="centerY" secondItem="PI4-y5-0qp" secondAttribute="centerY" id="AQQ-ij-3cq"/>
                                         <constraint firstItem="ZzJ-OA-ICb" firstAttribute="centerX" secondItem="PI4-y5-0qp" secondAttribute="centerX" id="u4n-AL-FaG"/>
+                                        <constraint firstItem="XAN-FS-7gy" firstAttribute="centerY" secondItem="ZzJ-OA-ICb" secondAttribute="centerY" id="wic-0X-U2R"/>
                                     </constraints>
+                                    <connections>
+                                        <outlet property="footerText" destination="ZzJ-OA-ICb" id="mVR-Bd-Fv9"/>
+                                        <outlet property="loadingIndicator" destination="XAN-FS-7gy" id="MKs-fQ-Qyk"/>
+                                    </connections>
                                 </collectionReusableView>
                             </collectionView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Ele-CB-CTB">
