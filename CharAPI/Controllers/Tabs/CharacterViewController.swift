@@ -76,8 +76,11 @@ extension CharacterViewController: CharViewViewModelDelegate {
 	}
 	
 	func didLoadMoreCharacters(for newElementsIndexPaths: [IndexPath]) {
-		VCCollectionView.performBatchUpdates {
-			self.VCCollectionView.insertItems(at: newElementsIndexPaths)
+		DispatchQueue.main.async {
+			self.VCCollectionView.performBatchUpdates {
+				self.VCCollectionView.insertItems(at: newElementsIndexPaths)
+			}
 		}
+		
 	}
 }

@@ -37,7 +37,7 @@ class CharViewViewModel: NSObject {
 			// create a view model for each character
 			// when a viewmodel is already created for that character name, it will not duplicate it
 			for person in charactersList where !cellViewModel.contains(where: {$0.name == person.name} ){
-				print(cellViewModel.count, person.name, "charlist")
+//				print(cellViewModel.count, person.name, "charlist")
 				let viewModel = CharCollectionCellViewViewModel(
 					name: person.name,
 					alias_names: person.alias_names,
@@ -52,9 +52,10 @@ class CharViewViewModel: NSObject {
 		}
 	}
 	
-	// For cacheing collection view cell data
+	/// For cacheing collection view cell data
 	private var cellViewModel: [CharCollectionCellViewViewModel] = []
 	
+	/// Current API Page Pagination Links
 	private var APIPagination: LinksPagination? = nil
 	
 	/// Boolean val if there are more data page from the API Response
@@ -84,9 +85,7 @@ class CharViewViewModel: NSObject {
 	
 	/// Paginate fetch if theres more pages
 	func fetchMoreCharacters(urlString: String){
-		let modifiedURLString = urlString.replacingOccurrences(of: "\u{0026}", with: "&")
-				
-		let request = Request(urlString: modifiedURLString)
+		let request = Request(urlString: urlString)
 		guard let request = request else { return }
 		isCurrentlyLoading = true
 		
@@ -95,28 +94,38 @@ class CharViewViewModel: NSObject {
 			
 			switch result {
 				case .success(let ApiResponseModel):
-					let adtnlCharacters = ApiResponseModel.data.compactMap { $0.attributes }
-														  .filter { character in
-															  guard let strongSelf = self else { return false}
-															  return !(strongSelf.charactersList.contains { $0.name == character.name } )
-														  }
+					
+					var adtnlCharacters = ApiResponseModel.data.compactMap { $0.attributes }
+					
+					// remove duplicates in charactersList and adtnlCharacters
+					adtnlCharacters = adtnlCharacters.filter { character in
+						guard let strongSelf = self else { return false }
+						
+						let isNew = !(strongSelf.charactersList.contains { $0.name == character.name })
+						let isNotDuplicate = adtnlCharacters.filter { $0.name == character.name }.count == 1
+						
+						return isNew && isNotDuplicate
+					}
+	
+					
 					self?.charactersList.append(contentsOf: adtnlCharacters)
 					self?.APIPagination = ApiResponseModel.links
 
 					// update UI
-					DispatchQueue.main.async {
-						// stop footer loading animation
-						self?.delegate?.didFinishFooterLoad()
-						// update Collection View in Controller
-						let startIndex = (self?.charactersList.count ?? 0) - adtnlCharacters.count - 1
-						let endIndex = (self?.charactersList.count ?? 0) - 1
-						
-						let addedIndexes: [IndexPath] = Array(startIndex..<endIndex).compactMap { IndexPath(row: $0, section: 0) }
-						print("index count", addedIndexes.count, addedIndexes)
-						self?.delegate?.didLoadMoreCharacters(for: addedIndexes)
-						// stop the loading boolean
-						self?.isCurrentlyLoading = false
-					}
+					self?.delegate?.didFinishFooterLoad()
+					
+					// update Collection View in Controller
+					let startIndex = (self?.charactersList.count ?? 0) - adtnlCharacters.count - 1
+					let endIndex = (self?.charactersList.count ?? 0) - 1
+					let indexForAdded: [IndexPath] = Array(startIndex..<endIndex).map { IndexPath(row: $0, section: 0)}
+					
+					self?.delegate?.didLoadMoreCharacters(for: indexForAdded)
+					
+					
+					
+					// stop the loading boolean
+					self?.isCurrentlyLoading = false
+					
 					
 					
 				case .failure(let failure):

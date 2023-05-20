@@ -23,8 +23,7 @@ class FooterLoadCollectionReusableView: UICollectionReusableView {
 	
 	override func prepareForReuse() {
 		super.prepareForReuse()
-		footerText.text = nil
-		loadingIndicator.stopAnimating()
+		
 	}
     
 }
@@ -32,13 +31,20 @@ class FooterLoadCollectionReusableView: UICollectionReusableView {
 extension FooterLoadCollectionReusableView: CharViewViewModelDelegate {
 	
 	func didPullFooterForMoreData() {
-		footerText.text = "Getting More!"
-		loadingIndicator.isHidden = false
-		loadingIndicator.startAnimating()
+		print("didPullFooterForMoreData")
+		DispatchQueue.main.async { [weak self] in
+			self?.footerText.text = "Getting More!"
+			self?.loadingIndicator.isHidden = false
+			self?.loadingIndicator.startAnimating()
+		}
+		
 	}
 	
 	func didFinishFooterLoad() {
-		loadingIndicator.stopAnimating()
-		footerText.text = ""
+		print("didFinishFooterLoad")
+		DispatchQueue.main.async { [weak self] in
+			self?.loadingIndicator.stopAnimating()
+			self?.footerText.text = ""
+		}
 	}
 }

@@ -28,6 +28,7 @@
 		6CC188792A11F7D900104B18 /* CharDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC188782A11F7D900104B18 /* CharDetailViewController.swift */; };
 		6CC1887B2A12087200104B18 /* CharDetailViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC1887A2A12087200104B18 /* CharDetailViewViewModel.swift */; };
 		6CC1887E2A123EA000104B18 /* FooterLoadCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC1887C2A123EA000104B18 /* FooterLoadCollectionReusableView.swift */; };
+		6CD9D9A62A18A8660009294E /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD9D9A52A18A8660009294E /* ImageLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		6CC188782A11F7D900104B18 /* CharDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharDetailViewController.swift; sourceTree = "<group>"; };
 		6CC1887A2A12087200104B18 /* CharDetailViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharDetailViewViewModel.swift; sourceTree = "<group>"; };
 		6CC1887C2A123EA000104B18 /* FooterLoadCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterLoadCollectionReusableView.swift; sourceTree = "<group>"; };
+		6CD9D9A52A18A8660009294E /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 		6C53B95F2A08E69700F77D37 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				6CD9D9A42A18A83F0009294E /* Singleton */,
 				6C53B9702A08EFEE00F77D37 /* APIClient */,
 			);
 			path = Managers;
@@ -206,6 +209,14 @@
 				6CC188782A11F7D900104B18 /* CharDetailViewController.swift */,
 			);
 			path = Other;
+			sourceTree = "<group>";
+		};
+		6CD9D9A42A18A83F0009294E /* Singleton */ = {
+			isa = PBXGroup;
+			children = (
+				6CD9D9A52A18A8660009294E /* ImageLoader.swift */,
+			);
+			path = Singleton;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,6 +299,7 @@
 				6C53B9692A08E92F00F77D37 /* CharacterViewController.swift in Sources */,
 				6CC1887B2A12087200104B18 /* CharDetailViewViewModel.swift in Sources */,
 				6CC1887E2A123EA000104B18 /* FooterLoadCollectionReusableView.swift in Sources */,
+				6CD9D9A62A18A8660009294E /* ImageLoader.swift in Sources */,
 				6C53B96F2A08E97300F77D37 /* SettingsViewController.swift in Sources */,
 				6C53B9642A08E7D300F77D37 /* Potion.swift in Sources */,
 				6CC188792A11F7D900104B18 /* CharDetailViewController.swift in Sources */,

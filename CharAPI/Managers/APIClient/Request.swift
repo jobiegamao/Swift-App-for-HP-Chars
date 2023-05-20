@@ -74,7 +74,7 @@ final class Request{
 			addtnlParams_found = trimmed.components(separatedBy: "&")
 			
 			self.init(endpoint: endpoint_found, addtnlParams: addtnlParams_found)
-			print("convenience init", self.endpoint, self.addtnlParams)
+//			print("convenience init", self.endpoint, self.addtnlParams)
 			return
 		}
 		

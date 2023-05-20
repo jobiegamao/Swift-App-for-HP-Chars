@@ -33,8 +33,7 @@ class CharCollectionViewCell: UICollectionViewCell {
 	
 	func configure(with viewModel: CharCollectionCellViewViewModel) {
 		
-		if let img = viewModel.imageURLString, let url = URL(string: img){
-			viewModel.fetchImage(imageURL: url) { [weak self] result in
+		viewModel.fetchImage() { [weak self] result in
 				switch result {
 					case .success(let data):
 						DispatchQueue.main.async {
@@ -46,7 +45,7 @@ class CharCollectionViewCell: UICollectionViewCell {
 						print(error.localizedDescription)
 				}
 			}
-		}
+		
 				
 		primaryLbl.text = viewModel.name
 		secondaryLbl.text = viewModel.secondaryComputedTxt
