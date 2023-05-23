@@ -37,7 +37,6 @@ class CharViewViewModel: NSObject {
 			// create a view model for each character
 			// when a viewmodel is already created for that character name, it will not duplicate it
 			for person in charactersList where !cellViewModel.contains(where: {$0.name == person.name} ){
-//				print(cellViewModel.count, person.name, "charlist")
 				let viewModel = CharCollectionCellViewViewModel(
 					name: person.name,
 					alias_names: person.alias_names,
@@ -152,7 +151,7 @@ extension CharViewViewModel: UICollectionViewDataSource, UICollectionViewDelegat
 		}
 		
 		let viewModel = cellViewModel[indexPath.row]
-		cell.configure(with: viewModel)
+		cell.configureCell(viewModel: viewModel)
 		return cell
 	}
 	

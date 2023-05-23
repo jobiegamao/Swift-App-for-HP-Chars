@@ -31,7 +31,8 @@ class CharCollectionViewCell: UICollectionViewCell {
 		
 	}
 	
-	func configure(with viewModel: CharCollectionCellViewViewModel) {
+	// MARK: - Public Configure Method
+	func configureCell(viewModel: CharCollectionCellViewViewModel) {
 		
 		viewModel.fetchImage() { [weak self] result in
 				switch result {

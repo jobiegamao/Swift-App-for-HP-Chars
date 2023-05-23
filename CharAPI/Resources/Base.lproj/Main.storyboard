@@ -223,7 +223,9 @@
                             <constraint firstItem="4jf-v8-Zm5" firstAttribute="leading" secondItem="3zj-Jr-juT" secondAttribute="leading" id="VQD-Mn-l6F"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="dDM-xP-Exy"/>
+                    <navigationItem key="navigationItem" id="dDM-xP-Exy">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="7B8-m2-N7K"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="VCCollectionView" destination="4jf-v8-Zm5" id="mTp-Wm-Ipc"/>
                         <outlet property="loadingIndicator" destination="Ele-CB-CTB" id="wrd-Ee-YNH"/>
@@ -248,7 +250,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="keZ-BQ-sMm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1050" y="-667"/>
+            <point key="canvasLocation" x="1049.6183206106871" y="-667.6056338028169"/>
         </scene>
         <!--Main Tab Controller-->
         <scene sceneID="2h0-Mm-qc8">
@@ -294,7 +296,7 @@
     <resources>
         <image name="gearshape" catalog="system" width="128" height="123"/>
         <image name="gearshape.fill" catalog="system" width="128" height="123"/>
-        <image name="house" catalog="system" width="32" height="32"/>
+        <image name="house" catalog="system" width="128" height="104"/>
         <image name="house.fill" catalog="system" width="128" height="104"/>
         <image name="pencil.slash" catalog="system" width="128" height="113"/>
         <image name="person.3" catalog="system" width="128" height="62"/>

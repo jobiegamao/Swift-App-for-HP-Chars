@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CharDetailViewPhotoCollectionViewCell" customModule="CharAPI" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CharDetailViewPhotoCollectionViewCell" id="gTV-IL-0wX" customClass="CharDetailViewPhotoCollectionViewCell" customModule="CharAPI" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="415" height="210"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="415" height="210"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MoW-he-CTz">
+                        <rect key="frame" x="0.0" y="0.0" width="164" height="210"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="MoW-he-CTz" secondAttribute="height" multiplier="89:114" id="0Jh-g3-6Vt"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alias Names" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DS2-VQ-NWt">
+                        <rect key="frame" x="179" y="65" width="236" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="bjK-aJ-OY5"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                        <color key="textColor" systemColor="secondaryLabelColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ddV-ng-jtu">
+                        <rect key="frame" x="179" y="30" width="236" height="27"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="ddV-ng-jtu" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="30" id="9Aj-F7-fqc"/>
+                <constraint firstItem="MoW-he-CTz" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Efp-CO-5hb"/>
+                <constraint firstAttribute="trailing" secondItem="ddV-ng-jtu" secondAttribute="trailing" id="aVQ-5t-tNv"/>
+                <constraint firstItem="DS2-VQ-NWt" firstAttribute="leading" secondItem="ddV-ng-jtu" secondAttribute="leading" id="gBj-t5-GCg"/>
+                <constraint firstItem="DS2-VQ-NWt" firstAttribute="top" secondItem="ddV-ng-jtu" secondAttribute="bottom" constant="8" id="gN3-9m-Hh4"/>
+                <constraint firstItem="ddV-ng-jtu" firstAttribute="leading" secondItem="MoW-he-CTz" secondAttribute="trailing" constant="15" id="gNk-K0-OeX"/>
+                <constraint firstAttribute="bottom" secondItem="MoW-he-CTz" secondAttribute="bottom" id="hI0-H3-A5l"/>
+                <constraint firstItem="MoW-he-CTz" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="kJt-J1-z5K"/>
+                <constraint firstAttribute="trailing" secondItem="DS2-VQ-NWt" secondAttribute="trailing" id="lyW-93-4fM"/>
+            </constraints>
+            <size key="customSize" width="415" height="210"/>
+            <connections>
+                <outlet property="aliasLbl" destination="DS2-VQ-NWt" id="jvo-Ug-LTp"/>
+                <outlet property="imageView" destination="MoW-he-CTz" id="BoP-hE-kqX"/>
+                <outlet property="nameLbl" destination="ddV-ng-jtu" id="QZW-I6-ZkP"/>
+            </connections>
+            <point key="canvasLocation" x="174.80916030534351" y="83.098591549295776"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
