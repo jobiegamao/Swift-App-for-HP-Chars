@@ -8,22 +8,23 @@
 import Foundation
 
 class CharDetailViewPhotoCVCellViewModel {
-	let image: String?
+	private let image: String?
 	let name : String
-	let alias_names: String
+	let alias_names: String?
 	let titles: [String]?
 	let born : String?
 	let died : String?
+	
 	
 	
 	// MARK: - Init
 	init(image: String?, name: String, alias_names: [String]?, titles: [String]?, born: String?, died: String?) {
 		self.image = image
 		self.name = name
-		self.alias_names = alias_names?.joined(separator: "+") ?? ""
+		self.alias_names = alias_names?.joined(separator: "\n")
 		self.titles = titles
 		self.born = born
-		self.died = died
+		self.died = died 
 	}
 	
 	// MARK: - Functions

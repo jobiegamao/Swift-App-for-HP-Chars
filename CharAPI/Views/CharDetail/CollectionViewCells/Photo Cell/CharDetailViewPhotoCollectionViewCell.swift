@@ -14,7 +14,7 @@ class CharDetailViewPhotoCollectionViewCell: UICollectionViewCell {
 	@IBOutlet weak var nameLbl: UILabel!
 	
 	@IBOutlet weak var aliasLbl: UILabel!
-	
+
 	let placeholderImage = UIImage(systemName: "person.fill.questionmark.rtl")
 	
 	static let identifier = "CharDetailViewPhotoCollectionViewCell"
@@ -24,6 +24,10 @@ class CharDetailViewPhotoCollectionViewCell: UICollectionViewCell {
 	override func awakeFromNib() {
 		super.awakeFromNib()
 		// Initialization code
+		nameLbl.sizeToFit()
+		nameLbl.adjustsFontSizeToFitWidth = true
+		aliasLbl.sizeToFit()
+		aliasLbl.adjustsFontSizeToFitWidth = true
 	}
 	
 	
@@ -32,7 +36,8 @@ class CharDetailViewPhotoCollectionViewCell: UICollectionViewCell {
 		super.prepareForReuse()
 		imageView.image = nil
 		nameLbl.text = nil
-		aliasLbl.text = nil
+		
+		
 	}
 	
 	// MARK: - Public Configure Method
@@ -54,7 +59,17 @@ class CharDetailViewPhotoCollectionViewCell: UICollectionViewCell {
 		}
 		
 		nameLbl.text = viewModel.name.uppercased()
+		
 		aliasLbl.text = viewModel.alias_names
+		
+		
+//		if let born = viewModel.born {
+//			bornLbl.text = "Born on " + born
+//		}
+//		if let death = viewModel.died {
+//			deathLbl.text = "Died on " + death
+//		}
+		
 	}
 	
 	

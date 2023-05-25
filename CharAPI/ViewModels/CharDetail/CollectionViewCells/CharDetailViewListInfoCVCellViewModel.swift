@@ -8,8 +8,8 @@
 import Foundation
 
 class CharDetailViewListInfoCVCellViewModel {
-	private let title: String
-	private let array: [String]
+	let title: String
+	let array: [String]
 	
 	// MARK: - Init
 	init(title: String, array: [String]) {

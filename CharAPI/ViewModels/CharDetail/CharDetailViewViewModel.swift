@@ -35,41 +35,78 @@ class CharDetailViewViewModel: NSObject {
 		self.setupDetailViewSections()
 	}
 	
+	// MARK: - Functions
 	private func setupDetailViewSections() {
 		// .photo + details
-		detailViewSection.append(
-			.photo(viewModel: .init(
-				image: star.image,
-				name: star.name,
-				alias_names: star.alias_names,
-				titles: star.titles,
-				born: star.born,
-				died: star.died
-		)))
-		
+		configureData_PhotoSection()
 		// .basic_info badges
+		configureData_BasicInfoSection()
+		// adtnl info -- 1 box
+		configureData_AddtnlInfoSection()
+		// list info badges
+		configureData_ListInfoSection()
+		// relationships
+		configureData_RelationsSection()
+	}
+	
+	private func configureData_PhotoSection(){
+		let model: CharDetailViewPhotoCVCellViewModel = .init(
+			image: star.image,
+			name: star.name,
+			alias_names: star.alias_names,
+			titles: star.titles,
+			born: star.born,
+			died: star.died
+		)
+		
+		detailViewSection = [
+			.photo(viewModel: model)
+		]
+	}
+	private func configureData_BasicInfoSection(){
 		let basicInfoModels: [CharDetailViewBasicInfoCVCellViewModel] = [
-			(title: "Species", value: star.species),
-			(title: "Status", value: star.blood_status),
-			(title: "House", value: star.house),
-			(title: "Animagus", value: star.animagus),
-			(title: "Patronus", value: star.patronus),
-			(title: "Boggart", value: star.boggart),
-			(title: "Marital Status", value: star.marital_status),
-			(title: "Nationality", value: star.nationality)
+			(title: "Birth", value: star.born,
+			 imageString: "figure.and.child.holdinghands"),
+			(title: "Death", value: star.died,
+			 imageString: "cross.case.fill"),
+			(title: "Species", value: star.species,
+			 imageString: "pawprint.circle"),
+			(title: "Status", value: star.blood_status,
+			 imageString: "staroflife.circle"),
+			(title: "House", value: star.house,
+			 imageString: "house.fill"),
+			(title: "Animagus", value: star.animagus,
+			imageString: "pawprint"),
+			(title: "Patronus", value: star.patronus,
+			 imageString: "water.waves"),
+			(title: "Boggart", value: star.boggart,
+			 imageString: "waveform.path.ecg"),
+			(title: "Marital Status", value: star.marital_status,
+			 imageString: "person.line.dotted.person.fill"),
+			(title: "Nationality", value: star.nationality,
+			 imageString: "flag.and.flag.filled.crossed")
+			
 		].compactMap { attr in
+			
 			guard let value = attr.value else {
 				return nil //skip if no value
 			}
-			return .init(title: attr.title, value: value)
+			return .init(
+				title: attr.title,
+				value: value,
+				imageString: attr.imageString
+			)
 		}
 			
 		if !basicInfoModels.isEmpty {
 			detailViewSection.append(.basic_info(viewModel: basicInfoModels))
 		}
 		
-		// adtnl info 1 box
-		detailViewSection.append(.addtnl_info(viewModel: .init(
+		
+	}
+	
+	private func configureData_AddtnlInfoSection(){
+		let model: CharDetailViewAdtnlInfoCVCellViewModel = .init(
 			gender: star.gender,
 			height: star.height,
 			weight: star.weight,
@@ -77,10 +114,13 @@ class CharDetailViewViewModel: NSObject {
 			eye_color: star.eye_color,
 			skin_color: star.skin_color,
 			wiki: star.wiki
-		)))
+		)
 		
-		// list info badges
-		let listInfoModels: [CharDetailViewListInfoCVCellViewModel] = [
+		detailViewSection.append(.addtnl_info(viewModel: model))
+	}
+	
+	private func configureData_ListInfoSection(){
+		let models: [CharDetailViewListInfoCVCellViewModel] = [
 			(title: "Jobs", array: star.jobs),
 			(title: "Wands", array: star.wands)
 		].compactMap { attr in
@@ -90,21 +130,25 @@ class CharDetailViewViewModel: NSObject {
 			return .init(title: attr.title, array: value)
 		}
 		
-		if !listInfoModels.isEmpty {
-			detailViewSection.append(.list_info(viewModels: listInfoModels))
+		if !models.isEmpty {
+			detailViewSection.append(.list_info(viewModels: models))
 		}
 		
-		// relationships
+	}
+	
+	private func configureData_RelationsSection(){
 		let relations = (star.family_members ?? []) + (star.romances ?? [])
-		var relationsModels: [CharDetailViewRelationsCVCellViewModel] = []
+		var models: [CharDetailViewRelationsCVCellViewModel] = []
+		
 		if !relations.isEmpty {
 			for person in relations {
-				relationsModels.append(.init(person: person))
+				models.append(.init(person: person))
 			}
-			detailViewSection.append(.relationships(viewModels: relationsModels))
+			detailViewSection.append(.relationships(viewModels: models))
 		}
-		 
 	}
+	
+	
 	
 	
 	// MARK: - Creating Collection View Layout
@@ -136,16 +180,10 @@ class CharDetailViewViewModel: NSObject {
 		// item
 		let item_Photo = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
 			widthDimension: .fractionalWidth(1),
-			heightDimension: .fractionalHeight(0.7)
+			heightDimension: .fractionalHeight(1)
 		))
 		
-		let item_Info = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
-			widthDimension: .fractionalWidth(1),
-			heightDimension: .fractionalHeight(0.3)
-		))
-		
-		item_Photo.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0)
-		item_Info.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
+		item_Photo.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 2, bottom: 10, trailing: 2)
 		
 		// group
 		let group = NSCollectionLayoutGroup.vertical(
@@ -153,7 +191,7 @@ class CharDetailViewViewModel: NSObject {
 				widthDimension: .fractionalWidth(1),
 				heightDimension: .fractionalHeight(0.5)
 			),
-			subitems: [item_Photo, item_Info]
+			subitems: [item_Photo]
 		)
 		
 		// section
@@ -301,7 +339,6 @@ extension CharDetailViewViewModel: UICollectionViewDelegate, UICollectionViewDat
 					for: indexPath) as? CharDetailViewPhotoCollectionViewCell
 				else { fatalError() }
 				
-				cell.backgroundColor = .blue
 				cell.configureCell(viewModel: viewModel)
 				return cell
 				
@@ -310,7 +347,8 @@ extension CharDetailViewViewModel: UICollectionViewDelegate, UICollectionViewDat
 					withReuseIdentifier: CharDetailViewBasicInfoCollectionViewCell.identifier,
 					for: indexPath) as? CharDetailViewBasicInfoCollectionViewCell
 				else { fatalError() }
-				cell.backgroundColor = .darkGray
+				
+				cell.configureCell(viewModel: viewModels[indexPath.row])
 				return cell
 				
 			case .relationships(let viewModels):

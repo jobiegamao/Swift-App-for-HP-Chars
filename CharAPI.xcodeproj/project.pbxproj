@@ -28,6 +28,7 @@
 		6CC188792A11F7D900104B18 /* CharDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC188782A11F7D900104B18 /* CharDetailViewController.swift */; };
 		6CC1887B2A12087200104B18 /* CharDetailViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC1887A2A12087200104B18 /* CharDetailViewViewModel.swift */; };
 		6CC1887E2A123EA000104B18 /* FooterLoadCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC1887C2A123EA000104B18 /* FooterLoadCollectionReusableView.swift */; };
+		6CC3D1212A1F6DDC00428CF9 /* CharDetailViewBasicInfoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6CC3D1202A1F6DDC00428CF9 /* CharDetailViewBasicInfoCollectionViewCell.xib */; };
 		6CD1C0BF2A1A0F2900396C26 /* CharDetailViewBasicInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD1C0BE2A1A0F2900396C26 /* CharDetailViewBasicInfoCollectionViewCell.swift */; };
 		6CD1C0C12A1A0F3800396C26 /* CharDetailViewRelationsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD1C0C02A1A0F3800396C26 /* CharDetailViewRelationsCollectionViewCell.swift */; };
 		6CD1C0C42A1A326300396C26 /* CharDetailAdtnlInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD1C0C22A1A326300396C26 /* CharDetailAdtnlInfoCollectionViewCell.swift */; };
@@ -67,6 +68,7 @@
 		6CC188782A11F7D900104B18 /* CharDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharDetailViewController.swift; sourceTree = "<group>"; };
 		6CC1887A2A12087200104B18 /* CharDetailViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharDetailViewViewModel.swift; sourceTree = "<group>"; };
 		6CC1887C2A123EA000104B18 /* FooterLoadCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterLoadCollectionReusableView.swift; sourceTree = "<group>"; };
+		6CC3D1202A1F6DDC00428CF9 /* CharDetailViewBasicInfoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CharDetailViewBasicInfoCollectionViewCell.xib; sourceTree = "<group>"; };
 		6CD1C0BE2A1A0F2900396C26 /* CharDetailViewBasicInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharDetailViewBasicInfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		6CD1C0C02A1A0F3800396C26 /* CharDetailViewRelationsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharDetailViewRelationsCollectionViewCell.swift; sourceTree = "<group>"; };
 		6CD1C0C22A1A326300396C26 /* CharDetailAdtnlInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharDetailAdtnlInfoCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -235,6 +237,14 @@
 			path = Other;
 			sourceTree = "<group>";
 		};
+		6CC3D11F2A1E044D00428CF9 /* BasicInfo Cell */ = {
+			isa = PBXGroup;
+			children = (
+				6CD1C0CF2A1A428700396C26 /* CharDetailViewBasicInfoCVCellViewModel.swift */,
+			);
+			path = "BasicInfo Cell";
+			sourceTree = "<group>";
+		};
 		6CD1C0B32A1A0A0100396C26 /* CharDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -265,7 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				6CD1C0E12A1CEA1A00396C26 /* Photo Cell */,
-				6CD1C0CF2A1A428700396C26 /* CharDetailViewBasicInfoCVCellViewModel.swift */,
+				6CC3D11F2A1E044D00428CF9 /* BasicInfo Cell */,
 				6CD1C0D12A1A429500396C26 /* CharDetailViewRelationsCVCellViewModel.swift */,
 				6CD1C0D32A1A42A700396C26 /* CharDetailViewAdtnlInfoCVCellViewModel.swift */,
 				6CD1C0D52A1A42B700396C26 /* CharDetailViewListInfoCVCellViewModel.swift */,
@@ -323,6 +333,7 @@
 			isa = PBXGroup;
 			children = (
 				6CD1C0BE2A1A0F2900396C26 /* CharDetailViewBasicInfoCollectionViewCell.swift */,
+				6CC3D1202A1F6DDC00428CF9 /* CharDetailViewBasicInfoCollectionViewCell.xib */,
 			);
 			path = "BasicInfo Cell";
 			sourceTree = "<group>";
@@ -401,6 +412,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CC3D1212A1F6DDC00428CF9 /* CharDetailViewBasicInfoCollectionViewCell.xib in Resources */,
 				6C53B9542A08E5C500F77D37 /* LaunchScreen.storyboard in Resources */,
 				6C53B9512A08E5C500F77D37 /* Assets.xcassets in Resources */,
 				6CD1C0DB2A1CE2B500396C26 /* CharDetailViewPhotoCollectionViewCell.xib in Resources */,
